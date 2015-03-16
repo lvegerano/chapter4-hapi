@@ -1,0 +1,14 @@
+{
+  "name": "webdev-with-mongo-node-book",
+  "version": "1.0.0",
+  "description": "web application with nodejs and mongodb",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Vegerano",
+  "license": "MIT",
+  "dependencies": {
+    "jade": "^1.9.2"
+  }
+}
