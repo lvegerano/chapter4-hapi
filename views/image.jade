@@ -1,43 +1,58 @@
-.panel.panel-primary
-    .panel-heading
-        h2.panel-title Image Title
-    .panel-body
-        p Image description
-        .col-md-12.text-center
-            img.img-thumbnail(src="/public/upload/filename", alt="image title")
-    .panel-footer
-        .row
-            .col-md-8
-                button.btn.btn-success#btn-like(data-id="image id")
-                    i.fa.fa-heart Like
-                strong.likes-count image likes &nbsp; - &nbsp;
-                i.fa.fa-eye
-                strong image.views &nbsp; - &nbsp; Posted
-                em.text-muted timestamp
-.panel.panel-default
-    .panel-heading
-        .row
-            .col-md-8
-                strong.panel-title Comments
-            .col-md-4.text-right
-                button.btn.btn-success.btn-sm#btn-comment(data-id="image id")
-                    i.fa.fa-comments-o Post Comment...
-    .panel-body
-        blockquote#post-commnent
+extends layouts/layout
+block content
+    .panel.panel-primary
+        .panel-heading
+            h2.panel-title #{image.title}
+        .panel-body
+            p #{image.description}
+            .col-md-12.text-center
+                img.img-thumbnail(src="/public/upload/#{image.filename}")
+        .panel-footer
             .row
-                form(method="post", action="/images/imageid/comment")
-                    .form-group.col-sm-12
-                        label.control-label.col-sm-2
-                        .col-sm-10
-                            .col-sm-10.text-right
-                                button#comment-btn.btn.btn-success(type="button")
-                                    i.fa.fa-comment Post
-        ul.medial-list
-            // loop throug comments
-            li.media
-                a.pull-left
-                    img.media-object(src="http://www.gravatar.com/avatar/gravatar/?d=monsterid&s=45", alt="gravatar")
-                    span.media-body Comment
-                    br
-                    strong.media-heading name
-                    small.text-muted timestamp
+                .col-md-8
+                    button.btn.btn-success#btn-like(data-id="#{image.uniqueId}")
+                        i.fa.fa-heart Like
+                    strong.likes-count #{image.likes} &nbsp;&ndash;&nbsp;
+                    i.fa.fa-eye
+                    strong #{image.views} &nbsp;&ndash;&nbsp; Posted:
+                    em.text-muted #{image.timestamp}
+
+    .panel.panel-default
+        .panel-heading
+            .row
+                .col-md-8
+                    strong.panel-title Comments
+                .col-md-4.text-right
+                    button.btn.btn-default.bt-sm#btn-comment(data-id="#{image.uniqueId}")
+                        i.fa.fa-comments-o Post Comment...
+        .panel-body
+            blockquote#post-comment
+                .row
+                    form(method="post", action="/images/#{image.uniqueId}/comment")
+                        .form-group.col-sm-12
+                            label.col-sm-2.control-label(for="name") Name:
+                            .col-sm-10
+                                input.form-control(type="text", name="name")
+                        .form-group.col-sm-12
+                            label.col-sm-2.contro-label(for="email") Email:
+                            .col-sm-10
+                                input.form-control(type="text", name="email")
+                        .form-group.col-sm-12
+                            label.col-sm-2.control-label(for="comment") Comment:
+                            .col-sm-10
+                                textarea.form-control(name="comment", rows="2")
+                        .form-group.col-sm-12
+                            .col-sm-12.text-right
+                                button.btn.btn-success#comment-btn(type="submit")
+                                    i.fa.fa-comment
+                                    |Post
+
+            ul.medial-list
+                each comment in comments
+                    li.media
+                        a.pull-left(href="#")
+                            img.media-object.img-circle(src="http://www.gravatar.com/avatar/#{comment.gravatar}?d=monsterid&s=45")
+                        .media-body #{comment.comment}
+                            br
+                            strong.media-heading #{comment.name}
+                            small.text-muted #{comment.timestamp}

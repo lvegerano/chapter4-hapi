@@ -1,25 +1,21 @@
 var Joi = require('joi');
+var Controllers = require('../controllers');
+
 
 exports.register = function (server, options, next) {
     server.route([
         {
             method: 'GET',
             path: '/',
-            handler: function (request, reply) {
-                reply.view('main',{});
-            }
+            handler: Controllers.home
         }, {
             method: 'GET',
-            path: '/images/{id}',
-            handler: function (request, reply) {
-                reply('the id is ' + request.params.id);
-            }
+            path: '/image/{id}',
+            handler: Controllers.images
         }, {
             method: 'POST',
             path: '/images',
-            handler: function (request, reply) {
-                reply('need to save file');
-            }
+            config: Controllers.imageUpload
         }, {
             method: 'POST',
             path: '/images/{id}/like',

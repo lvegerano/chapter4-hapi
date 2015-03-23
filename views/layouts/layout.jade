@@ -1,0 +1,18 @@
+doctype
+html
+    include ../partials/head
+    body
+        .page-header
+            .container
+                .col-md-6
+                    h1
+                        a(href="/") imgPlodr.id
+        .container
+            .row
+                .col-sm-8
+                    block content
+                .col-sm-4
+                    include ../partials/stats
+                    include ../partials/popular
+                    include ../partials/comments
+    include ../partials/foot

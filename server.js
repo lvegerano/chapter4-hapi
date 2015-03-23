@@ -29,7 +29,7 @@ server.register([{
     register: require('good'),
     options: options
 }, {
-    register: require('./server/images')
+    register: require('./server/image')
 }], function (err) {
     
     if (err) {
