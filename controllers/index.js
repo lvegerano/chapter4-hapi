@@ -90,7 +90,7 @@ internals.imageSave = function (request, callback) {
     var ext = path.extname(request.payload.file.filename).toLowerCase();
     var targetPath = path.resolve('./public/upload/' + imgUrl + ext);
     console.log(targetPath);
-    var accepted = ['png', 'jpg', 'jpeg', 'gif'];
+    var accepted = ['.png', '.jpg', '.jpeg', '.gif'];
 
     if (accepted.indexOf(ext) < 0) {
         fs.unlink(tempPath, function (err) {
