@@ -3,6 +3,7 @@ var Boom = require('boom');
 var moment = require('moment');
 var fs = require('fs');
 var path = require('path');
+var randomString = require('random-string');
 
 
 var internals = {};
@@ -79,15 +80,35 @@ internals.viewModelImage = {
 
 internals.imageSave = function (request, callback) {
 
-    var fileNameArray = request.payload.file.filename.split('.');
-    var ext = fileNameArray[fileNameArray.length - 1];
+    var imgUrl = randomString({
+        length: 6,
+        numeric: true,
+        letters: true,
+        special: false
+    });
+    var tempPath = request.payload.file.path;
+    var ext = path.extname(request.payload.file.filename).toLowerCase();
+    var targetPath = path.resolve('./public/upload/' + imgUrl + ext);
+    console.log(targetPath);
     var accepted = ['png', 'jpg', 'jpeg', 'gif'];
 
     if (accepted.indexOf(ext) < 0) {
-        return callback(new Error('Only image files allowed'));
+        fs.unlink(tempPath, function (err) {
+
+            if (err) {
+                return callback(err);
+            }
+        });
     }
 
-    console.log('saving file');
+    fs.rename(tempPath, targetPath, function (err) {
+
+        if (err) {
+            return callback(err);
+        }
+
+        return callback(null, imgUrl);
+    });
 };
 
 
@@ -107,15 +128,16 @@ exports.imageUpload = {
     payload: {
         output: 'file',
         parse: true,
-        maxBytes: 5242880
+        maxBytes: 5242880,
+        uploads: './temp'
     },
     handler: function (request, reply) {
 
         console.log(request.payload);
-        internals.imageSave(request, function (err) {
+        internals.imageSave(request, function (err, imgUrl) {
 
             Hoek.assert(!err, Boom.create(500, err));
-            return reply();
+            return reply.redirect('/images/' + imgUrl);
         });
     }
 };
