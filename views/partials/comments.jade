@@ -3,16 +3,16 @@
         h3.panel-title Latest Comments
     .panel-body
         ul.media-list
-            //each comment in comments
-            li.media
-                //a.pull-left(href="/images/#{image.uniqueId}")
-                a.pull-left(href="/images/image.id")
-                    img.media-object(width="45", height="45", src="/public/upload/image.filename")
-                    //img.media-object(width="45", height="45", src="/public/upload/#{image.filename}")
-                .media-body comments.comment
-                    //.media-body #{comments.comment}
-                    br
-                    strong.media-heading comment.name
-                    //strong.media-heading #{comment.name}
-                    small.text-muted comment.timestamp
-                    //small.text-muted #{comment.timestamp}
+            each comment in sidebar.comments
+                li.media
+                    //a.pull-left(href="/images/#{image.uniqueId}")
+                    a.pull-left(href="/images/image.id")
+                        img.media-object(width="45", height="45", src="/public/upload/image.filename")
+                        //img.media-object(width="45", height="45", src="/public/upload/#{image.filename}")
+                    .media-body comments.comment
+                        //.media-body #{comments.comment}
+                        br
+                        strong.media-heading comment.name
+                        //strong.media-heading #{comment.name}
+                        small.text-muted comment.timestamp
+                        //small.text-muted #{comment.timestamp}

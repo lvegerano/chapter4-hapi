@@ -4,6 +4,7 @@ var moment = require('moment');
 var fs = require('fs');
 var path = require('path');
 var randomString = require('random-string');
+var sidebar = require('./sidebar');
 
 
 var internals = {};
@@ -89,32 +90,37 @@ internals.imageSave = function (request, callback) {
     var tempPath = request.payload.file.path;
     var ext = path.extname(request.payload.file.filename).toLowerCase();
     var targetPath = path.resolve('./public/upload/' + imgUrl + ext);
-    console.log(targetPath);
     var accepted = ['.png', '.jpg', '.jpeg', '.gif'];
 
     if (accepted.indexOf(ext) < 0) {
         fs.unlink(tempPath, function (err) {
 
+            err = err || new Error('Only images allowed');
+            return callback(err);
+        });
+    } else {
+        fs.rename(tempPath, targetPath, function (err) {
+
             if (err) {
                 return callback(err);
             }
+
+            return callback(null, imgUrl);
         });
     }
-
-    fs.rename(tempPath, targetPath, function (err) {
-
-        if (err) {
-            return callback(err);
-        }
-
-        return callback(null, imgUrl);
-    });
 };
 
 
 exports.home = function (request, reply) {
 
-    reply.view('index', internals.viewModelHome);
+    sidebar(internals.viewModelHome, function (err, viewModel) {
+
+        if (err) {
+            throw err;
+        }
+        console.log(viewModel);
+        return reply.view('index', viewModel);
+    });
 };
 
 
@@ -133,11 +139,10 @@ exports.imageUpload = {
     },
     handler: function (request, reply) {
 
-        console.log(request.payload);
         internals.imageSave(request, function (err, imgUrl) {
 
             Hoek.assert(!err, Boom.create(500, err));
-            return reply.redirect('/images/' + imgUrl);
+            return reply.redirect('/image/' + imgUrl);
         });
     }
 };

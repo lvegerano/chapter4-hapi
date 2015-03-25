@@ -3,6 +3,7 @@ var Controllers = require('../controllers');
 
 
 exports.register = function (server, options, next) {
+
     server.route([
         {
             method: 'GET',
@@ -20,17 +21,20 @@ exports.register = function (server, options, next) {
             method: 'POST',
             path: '/images/{id}/like',
             handler: function (request, reply) {
+
                 reply('like image id: ' + request.params.id);
             }
         }, {
             method: 'POST',
             path: '/images/{id}/comment',
             handler: function (request, reply) {
+
                 reply('Comment on image id: ' + request.params.id);
             }
         }
     ]);
-    next();
+
+    return next();
 };
 
 exports.register.attributes = {
