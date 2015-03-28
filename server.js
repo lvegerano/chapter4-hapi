@@ -30,6 +30,8 @@ server.register([{
     options: options
 }, {
     register: require('./server/image')
+},{
+    register: require('./server/static')
 }], function (err) {
     
     if (err) {

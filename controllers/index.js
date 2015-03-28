@@ -116,7 +116,7 @@ exports.home = function (request, reply) {
         if (err) {
             throw err;
         }
-        console.log(viewModel);
+
         return reply.view('index', viewModel);
     });
 };
@@ -129,8 +129,7 @@ exports.images = function (request, reply) {
         if (err) {
             throw err;
         }
-        console.log(viewModel);
-        //reply();
+
         return reply.view('image', internals.viewModelImage);
     });
 };
@@ -151,4 +150,10 @@ exports.imageUpload = {
             return reply.redirect('/image/' + imgUrl);
         });
     }
+};
+
+
+exports.imageLikes = function (request, reply) {
+
+    reply({ likes: 1 });
 };

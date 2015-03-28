@@ -20,10 +20,7 @@ exports.register = function (server, options, next) {
         }, {
             method: 'POST',
             path: '/images/{id}/like',
-            handler: function (request, reply) {
-
-                reply('like image id: ' + request.params.id);
-            }
+            handler: Controllers.imageLikes
         }, {
             method: 'POST',
             path: '/images/{id}/comment',
