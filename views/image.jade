@@ -2,20 +2,20 @@ extends layouts/layout
 block content
     .panel.panel-primary
         .panel-heading
-            h2.panel-title #{image.title}
+            h2.panel-title #{images.title}
         .panel-body
-            p #{image.description}
+            p #{images.description}
             .col-md-12.text-center
-                img.img-thumbnail(src="/public/upload/#{image.filename}")
+                img.img-thumbnail(src="/public/upload/#{images.filename}")
         .panel-footer
             .row
                 .col-md-8
-                    button.btn.btn-success#btn-like(data-id="#{image.uniqueId}")
+                    button.btn.btn-success#btn-like(data-id="#{images.uniqueId}")
                         i.fa.fa-heart Like
-                    strong.likes-count #{image.likes} &nbsp;&ndash;&nbsp;
+                    strong.likes-count #{images.likes} &nbsp;&ndash;&nbsp;
                     i.fa.fa-eye
-                    strong #{image.views} &nbsp;&ndash;&nbsp; Posted:
-                    em.text-muted #{image.timestamp}
+                    strong #{images.views} &nbsp;&ndash;&nbsp; Posted:
+                    em.text-muted #{images.timestamp}
 
     .panel.panel-default
         .panel-heading
@@ -23,12 +23,12 @@ block content
                 .col-md-8
                     strong.panel-title Comments
                 .col-md-4.text-right
-                    button.btn.btn-default.bt-sm#btn-comment(data-id="#{image.uniqueId}")
+                    button.btn.btn-default.bt-sm#btn-comment(data-id="#{images.uniqueId}")
                         i.fa.fa-comments-o Post Comment...
         .panel-body
             blockquote#post-comment
                 .row
-                    form(method="post", action="/images/#{image.uniqueId}/comment")
+                    form(method="post", action="/images/#{images.uniqueId}/comment")
                         .form-group.col-sm-12
                             label.col-sm-2.control-label(for="name") Name:
                             .col-sm-10

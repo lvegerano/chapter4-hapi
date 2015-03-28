@@ -48,9 +48,8 @@ internals.viewModelHome = {
     ]
 };
 
-
 internals.viewModelImage = {
-    image: {
+    images: {
         uniqueId:       1,
         title:          'Sample Image 1',
         description:    'This is a sample.',
@@ -78,7 +77,6 @@ internals.viewModelImage = {
     ]
 };
 
-
 internals.imageSave = function (request, callback) {
 
     var imgUrl = randomString({
@@ -105,7 +103,7 @@ internals.imageSave = function (request, callback) {
                 return callback(err);
             }
 
-            return callback(null, imgUrl);
+            return callback(err, imgUrl);
         });
     }
 };
@@ -126,7 +124,15 @@ exports.home = function (request, reply) {
 
 exports.images = function (request, reply) {
 
-    reply.view('image', internals.viewModelImage);
+    sidebar(internals.viewModelImage, function (err, viewModel) {
+
+        if (err) {
+            throw err;
+        }
+        console.log(viewModel);
+        //reply();
+        return reply.view('image', internals.viewModelImage);
+    });
 };
 
 
