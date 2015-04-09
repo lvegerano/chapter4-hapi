@@ -30,8 +30,10 @@ server.register([{
     options: options
 }, {
     register: require('./server/image')
-},{
+}, {
     register: require('./server/static')
+}, {
+    register: require('./server/mongoose-connector')
 }], function (err) {
     
     if (err) {

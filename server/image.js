@@ -11,8 +11,8 @@ exports.register = function (server, options, next) {
             handler: Controllers.home
         }, {
             method: 'GET',
-            path: '/image/{id}',
-            handler: Controllers.images
+            path: '/images/{id}',
+            handler: Controllers.image
         }, {
             method: 'POST',
             path: '/images',
@@ -24,10 +24,7 @@ exports.register = function (server, options, next) {
         }, {
             method: 'POST',
             path: '/images/{id}/comment',
-            handler: function (request, reply) {
-
-                reply('Comment on image id: ' + request.params.id);
-            }
+            handler: Controllers.comments
         }
     ]);
 
