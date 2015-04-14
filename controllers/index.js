@@ -110,8 +110,8 @@ internals.imageSave = function (request, callback) {
 
 exports.home = function (request, reply) {
 
-    var ImageModel = request.server.plugins['mongoose-connector'].models.image;
-    ImageModel.find({}, {}, { sort: { timestamp: -1 }}, function (err, images) {
+    var Models = request.server.plugins['mongoose-connector'].models;
+    Models.image.find({}, {}, { sort: { timestamp: -1 }}, function (err, images) {
 
         if (err) {
             return reply(Boom.badImplementation());
@@ -119,7 +119,7 @@ exports.home = function (request, reply) {
 
         var viewModel = {};
         viewModel.images = images;
-        sidebar(viewModel, function (err, viewModel) { // appends sidebar data
+        sidebar(viewModel, Models, function (err, viewModel) { // appends sidebar data
 
             return reply.view('index', viewModel);
         });
@@ -146,7 +146,7 @@ exports.image = function (request, reply) {
                 function (err, comments) {
 
                     viewModel.comments = comments;
-                    sidebar(viewModel, function (err, viewModel) {
+                    sidebar(viewModel, Models, function (err, viewModel) {
 
                         return reply.view('image', viewModel);
                     })
@@ -204,7 +204,7 @@ exports.imageLikes = function (request, reply) {
 exports.comments = function (request, reply) {
 
     var Models = request.server.plugins['mongoose-connector'].models;
-    //console.log(Models);
+
     Models.image.findOne({ filename: { $regex: request.params.id } }, function (err, image) {
 
         if (err) {
@@ -226,6 +226,5 @@ exports.comments = function (request, reply) {
         } else {
             return reply.redirect('/');
         }
-
     });
 };

@@ -1,15 +1,32 @@
 var Stats = require('./helpers/stats');
 var Images = require('./helpers/images');
 var Comments = require('./helpers/comments');
+var async = require('async');
 
 
-module.exports = function (viewModel, callback) {
+module.exports = function (viewModel, models, callback) {
 
-    viewModel.sidebar = {
-        stats: Stats(),
-        popular: Images.popular(),
-        comments: Comments.newest()
-    };
+    async.parallel([
+        function (next) {
 
-    return callback(null, viewModel);
+            return next(null, Stats());
+        },
+        function (next) {
+
+            return next(null, Images.popular());
+        },
+        function (next) {
+
+            return Comments.newest(models, next);
+        }
+    ], function (err, results) {
+
+        viewModel.sidebar = {
+            stats: results[0],
+            popular: results[1],
+            comments: results[2]
+        };
+
+        return callback(err, viewModel);
+    });
 };
