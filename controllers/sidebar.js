@@ -9,7 +9,7 @@ module.exports = function (viewModel, models, callback) {
     async.parallel([
         function (next) {
 
-            return next(null, Stats());
+            return Stats(models, next);
         },
         function (next) {
 
