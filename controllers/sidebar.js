@@ -13,7 +13,7 @@ module.exports = function (viewModel, models, callback) {
         },
         function (next) {
 
-            return next(null, Images.popular());
+            return Images.popular(models, next);
         },
         function (next) {
 
