@@ -25,6 +25,10 @@ exports.register = function (server, options, next) {
             method: 'POST',
             path: '/images/{id}/comment',
             handler: Controllers.comments
+        }, {
+            method: 'DELETE',
+            path: '/images/{id}/remove',
+            handler: Controllers.remove
         }
     ]);
 

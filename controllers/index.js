@@ -173,7 +173,7 @@ exports.imageUpload = {
                 return reply(Boom.badImplementation(err));
             }
 
-            return reply.redirect('/image/' + imageId);
+            return reply.redirect('/images/' + imageId);
         });
     }
 };
@@ -226,5 +226,40 @@ exports.comments = function (request, reply) {
         } else {
             return reply.redirect('/');
         }
+    });
+};
+
+exports.remove = function (request, reply) {
+
+    var Models = request.server.plugins['mongoose-connector'].models;
+
+    Models.image.findOne({ filename: { $regex: request.params.id } }, function (err, image) {
+
+        if (err) {
+            return reply(Boom.badImplementation(err));
+        }
+
+        fs.unlink(path.resolve('./public/upload/' + image.filename), function (err) {
+
+            if (err) {
+                return reply(Boom.badImplementation(err));
+            }
+
+            Models.comments.remove({ imageId: image._id }, function (err) {
+
+                if (err) {
+                    return reply(Boom.badImplementation(err));
+                }
+
+                image.remove(function (err) {
+
+                    if (err) {
+                        return reply(Boom.badImplementation(err));
+                    }
+
+                    return reply({removed: true});
+                });
+            });
+        });
     });
 };

@@ -16,6 +16,9 @@ block content
                     i.fa.fa-eye
                     strong #{images.views} &nbsp;&ndash;&nbsp; Posted:
                     em.text-muted #{images.timestamp}
+                .col-md-4.text-right
+                    button.btn.btn-danger#btn-delete(data-id="#{images.uniqueId}")
+                        i.fa.fa-times
 
     .panel.panel-default
         .panel-heading
